@@ -11,16 +11,22 @@ body {
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 20px;
-    flex-wrap: wrap;
+    align-items: start;
+}
+
+@media (max-width: 1024px) {
+    .container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
 }
 
 .calculator-panel {
-    flex: 1;
-    min-width: 400px;
     background: white;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -89,12 +95,16 @@ body {
 }
 
 .history-section {
-    width: 100%;
     background: white;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    margin-top: 20px;
+}
+
+@media (max-width: 1024px) {
+    .history-section {
+        margin-top: 20px;
+    }
 }
 
 .section-header {
@@ -124,21 +134,40 @@ body {
 }
 
 .history-list {
-    max-height: 400px;
+    max-height: 500px;
     overflow-y: auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 15px;
     padding: 20px;
+}
+
+@media (min-width: 1025px) {
+    .history-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .history-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 15px;
+    }
 }
 
 .history-item {
     background-color: #f8f9fa;
     border: 1px solid #e9ecef;
     border-radius: 8px;
-    padding: 15px;
+    padding: 12px;
     transition: background-color 0.3s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 1025px) {
+    .history-item {
+        padding: 10px;
+    }
 }
 
 .history-item:hover {
@@ -221,8 +250,6 @@ body {
 }
 
 .chart-panel {
-    flex: 1;
-    min-width: 400px;
     background: white;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
