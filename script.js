@@ -7,6 +7,13 @@ class MortgageCalculator {
         this.displayHistory();
     }
 
+    updateLoanAmount() {
+        const snpPrice = parseFloat(document.getElementById('snpPrice').value) || 0;
+        const loanMargin = parseFloat(document.getElementById('loanMargin').value) || 0;
+        const loanAmount = snpPrice * (loanMargin / 100);
+        document.getElementById('loanAmount').value = loanAmount;
+    }
+
     initializeEventListeners() {
         // Add calculate button event listener
         const calculateBtn = document.getElementById('calculateBtn');
@@ -18,11 +25,22 @@ class MortgageCalculator {
         }
         
         // Auto-save on input changes (but don't calculate)
-        const inputs = ['snpPrice', 'loanMargin', 'interestRate', 'loanPeriod', 'extraPayment'];
+        const inputs = ['interestRate', 'loanPeriod', 'extraPayment'];
         inputs.forEach(id => {
             document.getElementById(id).addEventListener('input', () => {
                 this.saveToStorage();
             });
+        });
+
+        // Auto-calculate loan amount when SNP Price or Loan Margin changes
+        document.getElementById('snpPrice').addEventListener('input', () => {
+            this.updateLoanAmount();
+            this.saveToStorage();
+        });
+
+        document.getElementById('loanMargin').addEventListener('input', () => {
+            this.updateLoanAmount();
+            this.saveToStorage();
         });
 
         // Clear history button
@@ -143,6 +161,7 @@ class MortgageCalculator {
 
     // Initialize display with default values
     initializeDisplay() {
+        this.updateLoanAmount(); // Calculate initial loan amount
         this.updateDisplay(0, 0, 0, 0, {years: 0, months: 0}, []);
     }
 

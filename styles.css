@@ -77,6 +77,12 @@ body {
     text-align: right;
 }
 
+.input-group input[readonly] {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    cursor: not-allowed;
+}
+
 .calculate-button {
     width: 100%;
     padding: 12px 20px;
@@ -310,5 +316,37 @@ body {
     .history-section {
         margin: 15px 0 0 0;
         max-width: 100%;
+    }
+    
+    .history-item-details {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        font-size: 14px;
+    }
+    
+    .history-detail {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+    }
+    
+    .history-detail-label {
+        font-size: 12px;
+        margin-bottom: 2px;
+    }
+    
+    .history-detail-value {
+        font-size: 14px;
+        font-weight: bold;
+        word-break: break-word;
+    }
+    
+    .history-item-title {
+        font-size: 16px;
+    }
+    
+    .history-item-date {
+        font-size: 12px;
+        padding: 3px 6px;
     }
 }
