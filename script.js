@@ -3,7 +3,7 @@ class MortgageCalculator {
         this.chart = null;
         this.history = this.loadHistory();
         this.initializeEventListeners();
-        this.calculate();
+        this.initializeDisplay();
         this.displayHistory();
     }
 
@@ -136,6 +136,11 @@ class MortgageCalculator {
         
         const payoffText = `${payoffEarlier.years} years ${payoffEarlier.months} months`;
         document.getElementById('payoffEarlier').textContent = payoffText;
+    }
+
+    // Initialize display with default values
+    initializeDisplay() {
+        this.updateDisplay(0, 0, 0, 0, {years: 0, months: 0}, []);
     }
 
     updateChart(paymentBreakdown) {

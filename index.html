@@ -59,6 +59,9 @@
                         <label for="extraPayment">Extra Monthly Payment:</label>
                         <input type="number" id="extraPayment" value="200" step="10" min="0">
                     </div>
+                    <div class="input-group">
+                        <button id="calculateBtn" class="calculate-button">Calculate Loan</button>
+                    </div>
                 </div>
             </div>
 
@@ -66,7 +69,7 @@
                 <div class="section-header">Loan Summary</div>
                 <div class="section-content">
                     <div class="output-group">
-                        <label>Monthly Payment:</label>
+                        <label>Total Monthly Payment:</label>
                         <span class="value" id="monthlyPayment">RM 0.00</span>
                     </div>
                     <div class="output-group">
@@ -84,6 +87,20 @@
                     <div class="output-group">
                         <label>Payoff Earlier By:</label>
                         <span class="value" id="payoffEarlier">0 years 0 months</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="history-panel">
+            <div class="section">
+                <div class="section-header">
+                    Calculation History
+                    <button id="clearHistoryBtn" class="clear-history-btn">Clear All</button>
+                </div>
+                <div class="section-content">
+                    <div id="historyList" class="history-list">
+                        <div class="no-history">No calculations yet. Click "Calculate Loan" to start!</div>
                     </div>
                 </div>
             </div>
