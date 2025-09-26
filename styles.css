@@ -24,6 +24,11 @@ body {
         grid-template-columns: 1fr;
         gap: 20px;
     }
+    
+    .history-section {
+        margin: 20px 0 0 0;
+        max-width: 100%;
+    }
 }
 
 .calculator-panel {
@@ -293,11 +298,17 @@ body {
 
 @media (max-width: 768px) {
     .container {
-        flex-direction: column;
+        grid-template-columns: 1fr;
+        gap: 15px;
     }
     
     .calculator-panel,
     .chart-panel {
         min-width: 100%;
+    }
+    
+    .history-section {
+        margin: 15px 0 0 0;
+        max-width: 100%;
     }
 }
