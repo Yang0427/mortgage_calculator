@@ -14,9 +14,9 @@ body {
     max-width: 1400px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 400px 1fr;
     gap: 20px;
-    align-items: start;
+    align-items: stretch;
 }
 
 @media (max-width: 1024px) {
@@ -95,16 +95,13 @@ body {
 }
 
 .history-section {
+    width: 100%;
+    max-width: 1400px;
+    margin: 20px auto 0 auto;
     background: white;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-}
-
-@media (max-width: 1024px) {
-    .history-section {
-        margin-top: 20px;
-    }
 }
 
 .section-header {
@@ -188,11 +185,11 @@ body {
 .history-item-title {
     font-weight: bold;
     color: #2d5a27;
-    font-size: 16px;
+    font-size: 18px;
 }
 
 .history-item-date {
-    font-size: 12px;
+    font-size: 14px;
     color: #6c757d;
     background-color: #e9ecef;
     padding: 4px 8px;
@@ -203,7 +200,7 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
-    font-size: 13px;
+    font-size: 15px;
 }
 
 .history-detail {
@@ -254,12 +251,16 @@ body {
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .chart-container {
     position: relative;
-    height: 400px;
+    flex: 1;
     margin-top: 20px;
+    min-height: 400px;
 }
 
 .legend {
@@ -289,14 +290,6 @@ body {
     background-color: #808080;
 }
 
-.arrow {
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 24px;
-    color: #ff6b35;
-}
 
 @media (max-width: 768px) {
     .container {

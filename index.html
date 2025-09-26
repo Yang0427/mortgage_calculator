@@ -17,17 +17,8 @@
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
     
-    <!-- Apple Touch Icons -->
-    <link rel="apple-touch-icon" href="icons/icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-192x192.png">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-192x192.png">
-    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=2">
 </head>
 <body>
     <div class="container">
@@ -106,11 +97,10 @@
             <div class="chart-container">
                 <canvas id="paymentChart"></canvas>
             </div>
-            <div class="arrow">→</div>
         </div>
     </div>
 
-    <!-- Full-width History Section -->
+    <!-- Full-width History Section at Bottom -->
     <div class="history-section">
         <div class="section">
             <div class="section-header">
@@ -125,14 +115,12 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
-    
     <!-- PWA Service Worker Registration -->
     <script>
         // Register Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
+                navigator.serviceWorker.register('sw.js?v=2')
                     .then((registration) => {
                         console.log('SW registered: ', registration);
                     })
@@ -207,5 +195,8 @@
         // Load saved data on page load
         window.addEventListener('load', loadFromStorage);
     </script>
+    
+    <!-- Load calculator script after DOM is ready -->
+    <script src="script.js?v=2"></script>
 </body>
 </html>

@@ -9,10 +9,13 @@ class MortgageCalculator {
 
     initializeEventListeners() {
         // Add calculate button event listener
-        document.getElementById('calculateBtn').addEventListener('click', () => {
-            this.calculate();
-            this.saveToStorage();
-        });
+        const calculateBtn = document.getElementById('calculateBtn');
+        if (calculateBtn) {
+            calculateBtn.addEventListener('click', () => {
+                this.calculate();
+                this.saveToStorage();
+            });
+        }
         
         // Auto-save on input changes (but don't calculate)
         const inputs = ['snpPrice', 'loanMargin', 'interestRate', 'loanPeriod', 'extraPayment'];
@@ -40,7 +43,7 @@ class MortgageCalculator {
         document.getElementById('loanAmount').value = loanAmount;
 
         if (loanAmount <= 0 || interestRate <= 0 || loanPeriod <= 0) {
-            this.updateDisplay(0, 0, 0, 0, 0, []);
+            this.updateDisplay(0, 0, 0, 0, {years: 0, months: 0}, []);
             return;
         }
 
@@ -254,56 +257,54 @@ class MortgageCalculator {
             const date = new Date(calc.timestamp);
             const formattedDate = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
             
-            return `
-                <div class="history-item">
-                    <div class="history-item-header">
-                        <div class="history-item-title">Calculation #${index + 1}</div>
-                        <div class="history-item-date">${formattedDate}</div>
-                    </div>
-                    <div class="history-item-details">
-                        <div class="history-detail">
-                            <span class="history-detail-label">SNP Price:</span>
-                            <span class="history-detail-value">RM ${calc.snpPrice.toLocaleString()}</span>
-                        </div>
-                        <div class="history-detail">
-                            <span class="history-detail-label">Loan Amount:</span>
-                            <span class="history-detail-value">RM ${calc.loanAmount.toLocaleString()}</span>
-                        </div>
-                        <div class="history-detail">
-                            <span class="history-detail-label">Interest Rate:</span>
-                            <span class="history-detail-value">${calc.interestRate}%</span>
-                        </div>
-                        <div class="history-detail">
-                            <span class="history-detail-label">Loan Period:</span>
-                            <span class="history-detail-value">${calc.loanPeriod} years</span>
-                        </div>
-                        <div class="history-detail">
-                            <span class="history-detail-label">Extra Payment:</span>
-                            <span class="history-detail-value">RM ${calc.extraPayment.toLocaleString()}</span>
-                        </div>
-                        <div class="history-detail">
-                            <span class="history-detail-label">Monthly Payment:</span>
-                            <span class="history-detail-value">RM ${calc.monthlyPayment.toFixed(2)}</span>
-                        </div>
-                        <div class="history-detail">
-                            <span class="history-detail-label">Total Interest:</span>
-                            <span class="history-detail-value">RM ${calc.totalInterest.toFixed(2)}</span>
-                        </div>
-                        <div class="history-detail">
-                            <span class="history-detail-label">Interest Saving:</span>
-                            <span class="history-detail-value">RM ${calc.interestSaving.toFixed(2)}</span>
-                        </div>
-                        <div class="history-detail">
-                            <span class="history-detail-label">Payoff Earlier:</span>
-                            <span class="history-detail-value">${calc.payoffEarlier.years}y ${calc.payoffEarlier.months}m</span>
-                        </div>
-                        <div class="history-detail">
-                            <span class="history-detail-label">Total Payments:</span>
-                            <span class="history-detail-value">${calc.numPayments}</span>
-                        </div>
-                    </div>
-                </div>
-            `;
+            return '<div class="history-item">' +
+                '<div class="history-item-header">' +
+                    '<div class="history-item-title">Calculation #' + (index + 1) + '</div>' +
+                    '<div class="history-item-date">' + formattedDate + '</div>' +
+                '</div>' +
+                '<div class="history-item-details">' +
+                    '<div class="history-detail">' +
+                        '<span class="history-detail-label">SNP Price:</span>' +
+                        '<span class="history-detail-value">RM ' + calc.snpPrice.toLocaleString() + '</span>' +
+                    '</div>' +
+                    '<div class="history-detail">' +
+                        '<span class="history-detail-label">Loan Amount:</span>' +
+                        '<span class="history-detail-value">RM ' + calc.loanAmount.toLocaleString() + '</span>' +
+                    '</div>' +
+                    '<div class="history-detail">' +
+                        '<span class="history-detail-label">Interest Rate:</span>' +
+                        '<span class="history-detail-value">' + calc.interestRate + '%</span>' +
+                    '</div>' +
+                    '<div class="history-detail">' +
+                        '<span class="history-detail-label">Loan Period:</span>' +
+                        '<span class="history-detail-value">' + calc.loanPeriod + ' years</span>' +
+                    '</div>' +
+                    '<div class="history-detail">' +
+                        '<span class="history-detail-label">Extra Payment:</span>' +
+                        '<span class="history-detail-value">RM ' + calc.extraPayment.toLocaleString() + '</span>' +
+                    '</div>' +
+                    '<div class="history-detail">' +
+                        '<span class="history-detail-label">Monthly Payment:</span>' +
+                        '<span class="history-detail-value">RM ' + calc.monthlyPayment.toFixed(2) + '</span>' +
+                    '</div>' +
+                    '<div class="history-detail">' +
+                        '<span class="history-detail-label">Total Interest:</span>' +
+                        '<span class="history-detail-value">RM ' + calc.totalInterest.toFixed(2) + '</span>' +
+                    '</div>' +
+                    '<div class="history-detail">' +
+                        '<span class="history-detail-label">Interest Saving:</span>' +
+                        '<span class="history-detail-value">RM ' + calc.interestSaving.toFixed(2) + '</span>' +
+                    '</div>' +
+                    '<div class="history-detail">' +
+                        '<span class="history-detail-label">Payoff Earlier:</span>' +
+                        '<span class="history-detail-value">' + calc.payoffEarlier.years + 'y ' + calc.payoffEarlier.months + 'm</span>' +
+                    '</div>' +
+                    '<div class="history-detail">' +
+                        '<span class="history-detail-label">Total Payments:</span>' +
+                        '<span class="history-detail-value">' + calc.numPayments + '</span>' +
+                    '</div>' +
+                '</div>' +
+            '</div>';
         }).join('');
     }
 
