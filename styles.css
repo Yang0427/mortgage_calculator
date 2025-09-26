@@ -66,6 +66,131 @@ body {
     text-align: right;
 }
 
+.calculate-button {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: #2d5a27;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.calculate-button:hover {
+    background-color: #1e3f1a;
+}
+
+.calculate-button:active {
+    transform: translateY(1px);
+}
+
+.history-panel {
+    flex: 1;
+    min-width: 400px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.section-header {
+    background-color: #2d5a27;
+    color: white;
+    padding: 15px 20px;
+    font-weight: bold;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.clear-history-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.clear-history-btn:hover {
+    background-color: #c82333;
+}
+
+.history-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.history-item {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.history-item:hover {
+    background-color: #e9ecef;
+}
+
+.history-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.history-item-title {
+    font-weight: bold;
+    color: #2d5a27;
+    font-size: 14px;
+}
+
+.history-item-date {
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.history-item-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    font-size: 13px;
+}
+
+.history-detail {
+    display: flex;
+    justify-content: space-between;
+}
+
+.history-detail-label {
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.history-detail-value {
+    color: #2d5a27;
+    font-weight: bold;
+}
+
+.no-history {
+    text-align: center;
+    color: #6c757d;
+    font-style: italic;
+    padding: 20px;
+}
+
 .output-group {
     display: flex;
     justify-content: space-between;
