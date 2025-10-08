@@ -21,8 +21,16 @@
     <link rel="stylesheet" href="styles.css?v=2">
 </head>
 <body>
-    <div class="container">
-        <div class="calculator-panel">
+    <!-- Navigation Header -->
+    <div class="nav-header">
+        <button class="nav-btn active">🏠 House Loan</button>
+        <button class="nav-btn" onclick="window.location.href='car_loan_calc/index.html'">🚗 Car Affordability</button>
+    </div>
+
+    <div class="main-content">
+        <div class="container">
+            <!-- House Loan Calculator -->
+            <div class="calculator-panel">
             <div class="section">
                 <div class="section-header">Loan Detail</div>
                 <div class="section-content">
@@ -113,6 +121,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     <!-- PWA Service Worker Registration -->

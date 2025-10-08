@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Affordability Calculator - Malaysia</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Calculate total car ownership costs in Malaysia including loan, insurance, servicing, and more">
+    <meta name="theme-color" content="#2d5a27">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Car Affordability">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css?v=1">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <div class="nav-header">
+        <button class="nav-btn" onclick="window.location.href='../index.html'">🏠 House Loan</button>
+        <button class="nav-btn active">🚗 Car Affordability</button>
+    </div>
+
+    <div class="container">
+        <!-- Car Affordability Calculator -->
+        <div class="calculator-panel">
+            <div class="section">
+                <div class="section-header">Car Details</div>
+                <div class="section-content">
+                    <!-- Purchase Type Selection -->
+                    <div class="purchase-type-selection">
+                        <div class="radio-group">
+                            <input type="radio" id="loanPurchase" name="purchaseType" value="loan" checked>
+                            <label for="loanPurchase" class="radio-label">
+                                <span class="radio-icon">🏦</span>
+                                <span class="radio-text">Loan Purchase</span>
+                            </label>
+                        </div>
+                        <div class="radio-group">
+                            <input type="radio" id="cashPurchase" name="purchaseType" value="cash">
+                            <label for="cashPurchase" class="radio-label">
+                                <span class="radio-icon">💰</span>
+                                <span class="radio-text">Cash Purchase</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="carSegment">Car Segment:</label>
+                        <select id="carSegment">
+                            <option value="A">A Segment (Perodua, Proton) - RM 20K-50K</option>
+                            <option value="B">B Segment (Honda City, Toyota Vios) - RM 50K-80K</option>
+                            <option value="C">C Segment (Honda Civic, Toyota Corolla) - RM 80K-120K</option>
+                            <option value="D">D Segment (Honda Accord, Toyota Camry) - RM 120K-200K</option>
+                            <option value="E">E Segment (BMW 5 Series, Mercedes E-Class) - RM 200K-350K</option>
+                            <option value="F">F Segment (BMW 7 Series, Mercedes S-Class) - RM 350K-500K</option>
+                            <option value="Supercar">Supercar (Lamborghini, Ferrari) - RM 500K+</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="carPrice">Car Price (RM):</label>
+                        <input type="number" id="carPrice" value="100000" step="1000">
+                    </div>
+                    <!-- Loan-specific fields -->
+                    <div id="loanFields" class="loan-fields">
+                        <div class="input-group">
+                            <label for="downPaymentPercent">Down Payment (%):</label>
+                            <input type="number" id="downPaymentPercent" value="10" step="1" min="10" max="100">
+                        </div>
+                        <div class="input-group">
+                            <label for="downPaymentAmount">Down Payment (RM):</label>
+                            <input type="number" id="downPaymentAmount" value="10000" step="1000" readonly>
+                        </div>
+                        <div class="input-group">
+                            <label for="carInterestRate">Interest Rate (%):</label>
+                            <input type="number" id="carInterestRate" value="3.5" step="0.1" min="0" max="10">
+                        </div>
+                        <div class="input-group">
+                            <label for="carLoanPeriod">Loan Period (Years):</label>
+                            <input type="number" id="carLoanPeriod" value="7" step="1" min="1" max="9">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="engineCC">Engine CC:</label>
+                        <input type="number" id="engineCC" value="1600" step="50" min="100" max="8000">
+                    </div>
+                    <div class="input-group">
+                        <label for="vehicleBodyType">Vehicle Body Type:</label>
+                        <select id="vehicleBodyType">
+                            <option value="sedan">Sedan (Standard Rate)</option>
+                            <option value="suv">SUV (+10% Loading)</option>
+                            <option value="mpv">MPV (+10% Loading)</option>
+                            <option value="pickup">Pickup (+5% Loading)</option>
+                            <option value="coupe">Coupe (Standard Rate)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="ownershipType">Ownership Type:</label>
+                        <select id="ownershipType">
+                            <option value="private">Private Individual (Standard Rate)</option>
+                            <option value="company">Company/Commercial (+20% Loading)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="monthlyMileage">Monthly Mileage (km):</label>
+                        <input type="number" id="monthlyMileage" value="1000" step="100" min="0" max="1000">
+                    </div>
+                    
+                    <!-- Enhanced Insurance Details -->
+                    <div class="insurance-section">
+                        <h4>🏥 Enhanced Insurance Details</h4>
+                        <div class="input-group">
+                            <label for="vehicleAge">Vehicle Age (Years):</label>
+                            <input type="number" id="vehicleAge" value="0" step="1" min="0" max="20" placeholder="0 for new car">
+                            <small class="input-hint">Car value depreciates 4% per year (affects sum insured)</small>
+                        </div>
+                        <div class="input-group">
+                            <label for="driverAge">Driver Age:</label>
+                            <select id="driverAge">
+                                <option value="25plus">25-60 years (Standard Rate)</option>
+                                <option value="under25">Under 25 years (+20% Loading)</option>
+                                <option value="above60">Above 60 years (+10% Loading)</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="ncd">NCD (No Claim Discount):</label>
+                            <select id="ncd">
+                                <option value="0">0% (New Driver)</option>
+                                <option value="25">25% (1 year)</option>
+                                <option value="30">30% (2 years)</option>
+                                <option value="38.33">38.33% (3 years)</option>
+                                <option value="45">45% (4 years)</option>
+                                <option value="55" selected>55% (5+ years)</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="coverageType">Coverage Type:</label>
+                            <select id="coverageType">
+                                <option value="comprehensive" selected>Comprehensive</option>
+                                <option value="thirdparty">Third Party (50% cheaper)</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="location">Location:</label>
+                            <select id="location">
+                                <option value="standard">Standard Rate</option>
+                                <option value="kl">KL/Selangor (+5%)</option>
+                                <option value="johor">Johor (+4%)</option>
+                                <option value="penang">Penang (+3%)</option>
+                                <option value="sabah">Sabah (-5%)</option>
+                                <option value="sarawak">Sarawak (-5%)</option>
+                                <option value="langkawi">Langkawi (Standard Rate)</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Add-on Coverages -->
+                        <div class="addon-section">
+                            <h5>🔧 Optional Add-ons</h5>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="includeFloodCoverage">
+                                <label for="includeFloodCoverage">
+                                    🌊 Flood Coverage (Special Perils) - 0.25% of car value
+                                </label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="includeWindscreen">
+                                <label for="includeWindscreen">
+                                    🪟 Windscreen Coverage - 15% of windscreen value
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="calculateCarBtn" class="calculate-button">Calculate Car Affordability</button>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-header">Monthly Costs Breakdown</div>
+                <div class="section-content">
+                    <div class="summary-item">
+                        <span>Monthly Loan Payment:</span>
+                        <span id="monthlyLoanPayment">RM 0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Insurance (Monthly):</span>
+                        <span id="monthlyInsurance">RM 0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Road Tax (Monthly):</span>
+                        <span id="monthlyRoadTax">RM 0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Servicing (Monthly):</span>
+                        <span id="monthlyServicing">RM 0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Fuel (Monthly):</span>
+                        <span id="monthlyFuel">RM 0</span>
+                    </div>
+                    <div class="summary-item total">
+                        <span>Total Monthly Cost:</span>
+                        <span id="totalMonthlyCost">RM 0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-panel">
+            <div class="section">
+                <div class="section-header">Cost Breakdown Chart</div>
+                <div class="chart-container">
+                    <canvas id="costChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Full-width History Section at Bottom -->
+    <div class="history-section">
+        <div class="section">
+            <div class="section-header">
+                Calculation History
+                <button id="clearHistoryBtn" class="clear-history-btn">Clear All</button>
+            </div>
+            <div class="section-content">
+                <div id="historyList" class="history-list">
+                    <div class="no-history">No calculations yet. Click "Calculate Car Affordability" to start!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PWA Service Worker Registration -->
+    <script>
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js?v=1')
+                    .then((registration) => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch((registrationError) => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+
+        // Install Prompt
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+        });
+    </script>
+    
+    <!-- Load calculator script after DOM is ready -->
+    <script src="script.js?v=1"></script>
+</body>
+</html>

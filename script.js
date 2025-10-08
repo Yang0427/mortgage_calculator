@@ -163,6 +163,7 @@ class MortgageCalculator {
     initializeDisplay() {
         this.updateLoanAmount(); // Calculate initial loan amount
         this.updateDisplay(0, 0, 0, 0, {years: 0, months: 0}, []);
+        this.updateChart([]); // Initialize empty chart
     }
 
     updateChart(paymentBreakdown) {
@@ -170,6 +171,40 @@ class MortgageCalculator {
         
         if (this.chart) {
             this.chart.destroy();
+        }
+
+        // Handle empty data
+        if (!paymentBreakdown || paymentBreakdown.length === 0) {
+            this.chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['No Data'],
+                    datasets: [{
+                        label: 'Principal',
+                        data: [0],
+                        borderColor: '#2d5a27',
+                        backgroundColor: 'rgba(45, 90, 39, 0.1)',
+                        fill: true
+                    }, {
+                        label: 'Interest',
+                        data: [0],
+                        borderColor: '#808080',
+                        backgroundColor: 'rgba(128, 128, 128, 0.1)',
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Click "Calculate Loan" to see chart'
+                        }
+                    }
+                }
+            });
+            return;
         }
 
         // Sample data points for chart (every 12 months for better visualization)
