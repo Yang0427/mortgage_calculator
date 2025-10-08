@@ -185,3 +185,5 @@ test/
 # Build outputs (if you add build tools later)
 dist/
 build/
+
+update_guideline.md
