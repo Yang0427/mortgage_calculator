@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malaysian Tax Calculator</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Calculate Malaysian income tax, EPF contributions, and take-home pay">
+    <meta name="theme-color" content="#2d5a27">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Tax Calculator">
+    <meta name="msapplication-TileColor" content="#2d5a27">
+    <meta name="msapplication-tap-highlight" content="no">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css?v=4">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <div class="nav-header">
+        <button class="nav-btn" onclick="window.location.href='../index.html'">🏠 House Loan</button>
+        <button class="nav-btn" onclick="window.location.href='../car_loan_calc/index.html'">🚗 Car Affordability</button>
+        <button class="nav-btn active">💰 Tax Calculator</button>
+    </div>
+
+    <div class="main-content">
+        <div class="container">
+            <!-- Tax Calculator -->
+            <div class="calculator-panel">
+                <div class="section">
+                    <div class="section-header">Employee Details</div>
+                    <div class="section-content">
+                        <div class="input-group">
+                            <label for="basicSalary">Basic Salary (Monthly):</label>
+                            <input type="number" id="basicSalary" value="" step="100" min="0" placeholder="Enter monthly basic salary">
+                        </div>
+                        <div class="input-group">
+                            <label for="allowances">Fixed Allowances (Monthly):</label>
+                            <input type="number" id="allowances" value="" step="50" min="0" placeholder="Enter monthly allowances">
+                            <small class="input-hint">Housing, transport, cost-of-living allowances</small>
+                        </div>
+                        <div class="input-group">
+                            <label for="bonus">Annual Bonus:</label>
+                            <input type="number" id="bonus" value="" step="100" min="0" placeholder="Enter annual bonus">
+                        </div>
+                        <div class="input-group">
+                            <label for="commission">Monthly Commission:</label>
+                            <input type="number" id="commission" value="" step="100" min="0" placeholder="Enter monthly commission">
+                        </div>
+                        <div class="input-group">
+                            <label for="overtime">Monthly Overtime:</label>
+                            <input type="number" id="overtime" value="" step="50" min="0" placeholder="Enter monthly overtime pay">
+                            <small class="input-hint">Overtime and other taxable benefits</small>
+                        </div>
+                        <div class="input-group">
+                            <label for="residencyStatus">Tax Residency:</label>
+                            <select id="residencyStatus">
+                                <option value="resident" selected>Resident (≥183 days in Malaysia)</option>
+                                <option value="non-resident">Non-Resident (Flat 30% tax)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">EPF Contributions</div>
+                    <div class="section-content">
+                        <div class="input-group">
+                            <label for="employeeEPF">Employee EPF (11%):</label>
+                            <input type="number" id="employeeEPF" value="550" step="10" readonly>
+                            <small class="input-hint">Mandatory 11% of basic salary</small>
+                        </div>
+                        <div class="input-group">
+                            <label for="employerEPF">Employer EPF (12%):</label>
+                            <input type="number" id="employerEPF" value="600" step="10" readonly>
+                            <small class="input-hint">Employer contribution to EPF account</small>
+                        </div>
+                        <div class="input-group">
+                            <label for="voluntaryEPF">Voluntary EPF (Monthly):</label>
+                            <input type="number" id="voluntaryEPF" value="" step="50" min="0" placeholder="Enter voluntary EPF amount">
+                            <small class="input-hint">Tax deductible up to RM7,000/year</small>
+                        </div>
+                        <div class="input-group">
+                            <label for="prsContribution">PRS Contribution (Annual):</label>
+                            <input type="number" id="prsContribution" value="" step="100" min="0" placeholder="Enter PRS contribution">
+                            <small class="input-hint">Private Retirement Scheme (included in RM7,000 cap)</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">Tax Reliefs & Deductions</div>
+                    <div class="section-content">
+                        <div class="input-group">
+                            <label for="personalRelief">Personal Relief:</label>
+                            <input type="number" id="personalRelief" value="9000" step="100" readonly>
+                            <small class="input-hint">Standard personal relief (RM9,000)</small>
+                        </div>
+                        <div class="input-group">
+                            <label for="spouseRelief">Spouse Relief:</label>
+                            <input type="number" id="spouseRelief" value="" step="100" min="0" placeholder="Enter spouse relief amount">
+                            <small class="input-hint">If spouse has no income or disabled</small>
+                        </div>
+                        <div class="input-group">
+                            <label for="childrenRelief">Children Relief:</label>
+                            <input type="number" id="childrenRelief" value="" step="100" min="0" placeholder="Enter children relief amount">
+                            <small class="input-hint">RM2,000 per child (max 6 children = RM12,000)</small>
+                        </div>
+                        <div class="input-group">
+                            <label for="parentRelief">Parent Relief:</label>
+                            <input type="number" id="parentRelief" value="" step="100" min="0" placeholder="Enter parent relief amount">
+                            <small class="input-hint">RM1,500 per parent (max 2 parents = RM3,000)</small>
+                        </div>
+                        <div class="input-group">
+                            <label for="disabledRelief">Disabled Relief:</label>
+                            <input type="number" id="disabledRelief" value="" step="100" min="0" placeholder="Enter disabled relief amount">
+                            <small class="input-hint">Self/spouse/child/parent disability relief</small>
+                        </div>
+                        <div class="input-group">
+                            <label for="lifestyleRelief">Lifestyle Relief:</label>
+                            <input type="number" id="lifestyleRelief" value="" step="100" min="0" placeholder="Enter lifestyle relief amount">
+                            <small class="input-hint">Books, internet, sports equipment (max RM2,500)</small>
+                        </div>
+                        <div class="input-group">
+                            <label for="lifeInsurance">Life Insurance (Annual):</label>
+                            <input type="number" id="lifeInsurance" value="" step="100" min="0" placeholder="Enter life insurance premium">
+                            <small class="input-hint">Included in RM7,000 cap with voluntary EPF</small>
+                        </div>
+                        <div class="input-group">
+                            <label for="educationFees">Education Fees (Annual):</label>
+                            <input type="number" id="educationFees" value="" step="100" min="0" placeholder="Enter education fees">
+                            <small class="input-hint">Own or children's education (max RM7,000)</small>
+                        </div>
+                        <div class="input-group">
+                            <label for="medicalExpenses">Medical Expenses (Annual):</label>
+                            <input type="number" id="medicalExpenses" value="" step="100" min="0" placeholder="Enter medical expenses">
+                            <small class="input-hint">Medical expenses for self, spouse, children (max RM5,000 for parents)</small>
+                        </div>
+                        <div class="input-group">
+                            <label for="zakat">Zakat (Annual):</label>
+                            <input type="number" id="zakat" value="" step="100" min="0" placeholder="Enter zakat amount">
+                            <small class="input-hint">Zakat paid to reduce tax payable</small>
+                        </div>
+                        <div class="input-group">
+                            <label for="charitableDonations">Charitable Donations (Annual):</label>
+                            <input type="number" id="charitableDonations" value="" step="100" min="0" placeholder="Enter charitable donations">
+                            <small class="input-hint">Donations to approved charitable organizations</small>
+                        </div>
+                        <div class="input-group">
+                            <button id="calculateTaxBtn" class="calculate-button">Calculate Tax</button>
+                        </div>
+                        <div class="input-group">
+                            <button id="clearAllBtn" class="clear-button">Clear All Fields</button>
+                        </div>
+                        
+                        <!-- Relief Cap Warnings Display -->
+                        <div id="reliefWarnings" class="warnings-container" style="display: none;">
+                            <div class="warning-header">⚠️ Relief Caps Applied</div>
+                            <div id="warningList" class="warning-list"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">Tax Calculation Results</div>
+                    <div class="section-content">
+                        <div class="output-group">
+                            <label>Annual Gross Income:</label>
+                            <span class="value" id="annualGrossIncome">RM 0.00</span>
+                        </div>
+                        <div class="output-group">
+                            <label>Total Tax Reliefs:</label>
+                            <span class="value" id="totalTaxReliefs">RM 0.00</span>
+                        </div>
+                        <div class="output-group">
+                            <label>Chargeable Income:</label>
+                            <span class="value" id="chargeableIncome">RM 0.00</span>
+                        </div>
+                        <div class="output-group">
+                            <label>Annual Tax:</label>
+                            <span class="value" id="annualTax">RM 0.00</span>
+                        </div>
+                        <div class="output-group">
+                            <label>Monthly Tax (MTD):</label>
+                            <span class="value" id="monthlyTax">RM 0.00</span>
+                        </div>
+                        <div class="output-group">
+                            <label>Take-Home Pay (Monthly):</label>
+                            <span class="value" id="takeHomePay">RM 0.00</span>
+                        </div>
+                        <div class="output-group">
+                            <label>Total EPF Contribution (Annual):</label>
+                            <span class="value" id="totalEPFContribution">RM 0.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">Progressive Tax Breakdown</div>
+                    <div class="section-content">
+                        <div id="taxBreakdown" class="tax-breakdown">
+                            <div class="breakdown-header">Tax Calculation by Bracket</div>
+                            <div id="breakdownList" class="breakdown-list">
+                                <div class="no-breakdown">Click "Calculate Tax" to see detailed breakdown</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-panel">
+                <div class="section">
+                    <div class="section-header">Tax Breakdown Chart</div>
+                    <div class="chart-container">
+                        <canvas id="taxChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Full-width History Section at Bottom -->
+        <div class="history-section">
+            <div class="section">
+                <div class="section-header">
+                    Calculation History
+                    <button id="clearHistoryBtn" class="clear-history-btn">Clear All</button>
+                </div>
+                <div class="section-content">
+                    <div id="historyList" class="history-list">
+                        <div class="no-history">No calculations yet. Click "Calculate Tax" to start!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PWA Service Worker Registration -->
+    <script>
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js?v=4')
+                    .then((registration) => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch((registrationError) => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+
+        // Install Prompt
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Show install button
+            const installButton = document.createElement('button');
+            installButton.textContent = '📱 Install App';
+            installButton.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #2d5a27;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 25px;
+                font-size: 14px;
+                cursor: pointer;
+                z-index: 1000;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            `;
+            
+            installButton.addEventListener('click', () => {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                    }
+                    deferredPrompt = null;
+                    installButton.remove();
+                });
+            });
+            
+            document.body.appendChild(installButton);
+        });
+
+        // Offline Storage
+        function saveToStorage() {
+            const data = {
+                basicSalary: document.getElementById('basicSalary').value,
+                allowances: document.getElementById('allowances').value,
+                bonus: document.getElementById('bonus').value,
+                commission: document.getElementById('commission').value,
+                overtime: document.getElementById('overtime').value,
+                residencyStatus: document.getElementById('residencyStatus').value,
+                voluntaryEPF: document.getElementById('voluntaryEPF').value,
+                prsContribution: document.getElementById('prsContribution').value,
+                spouseRelief: document.getElementById('spouseRelief').value,
+                childrenRelief: document.getElementById('childrenRelief').value,
+                parentRelief: document.getElementById('parentRelief').value,
+                disabledRelief: document.getElementById('disabledRelief').value,
+                lifestyleRelief: document.getElementById('lifestyleRelief').value,
+                lifeInsurance: document.getElementById('lifeInsurance').value,
+                educationFees: document.getElementById('educationFees').value,
+                medicalExpenses: document.getElementById('medicalExpenses').value,
+                zakat: document.getElementById('zakat').value,
+                charitableDonations: document.getElementById('charitableDonations').value
+            };
+            localStorage.setItem('taxCalculatorData', JSON.stringify(data));
+        }
+
+        function loadFromStorage() {
+            // Don't load any saved data - keep all fields empty
+            // This ensures no default values are shown
+            return;
+        }
+
+        // Load saved data on page load
+        window.addEventListener('load', loadFromStorage);
+    </script>
+    
+    <!-- Load calculator script after DOM is ready -->
+    <script src="script.js?v=4"></script>
+</body>
+</html>

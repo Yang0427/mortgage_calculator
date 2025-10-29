@@ -16,13 +16,14 @@
     <link rel="manifest" href="manifest.json">
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="styles.css?v=3">
+    <link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
     <!-- Navigation Header -->
     <div class="nav-header">
         <button class="nav-btn" onclick="window.location.href='../index.html'">🏠 House Loan</button>
         <button class="nav-btn active">🚗 Car Affordability</button>
+        <button class="nav-btn" onclick="window.location.href='../tax_calculator/index.html'">💰 Tax Calculator</button>
     </div>
 
     <div class="container">
@@ -239,7 +240,7 @@
         // Register Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js?v=3')
+                navigator.serviceWorker.register('sw.js?v=4')
                     .then((registration) => {
                         console.log('SW registered: ', registration);
                     })
@@ -258,6 +259,6 @@
     </script>
     
     <!-- Load calculator script after DOM is ready -->
-    <script src="script.js?v=3"></script>
+    <script src="script.js?v=4"></script>
 </body>
 </html>
